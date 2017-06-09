@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 
 public class StudentsCourseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -24,12 +26,12 @@ public class StudentsCourseServlet extends HttpServlet {
 		if (studentIdStr != null && studentIdStr.matches("\\d+")) {
 			studentid = Long.parseLong(studentIdStr);
 			
-			ConfigurableApplicationContext context = new FileSystemXmlApplicationContext("C:\\\\Users\\\\awm\\\\Documents\\\\workspace-sts-3.8.3.RELEASE\\\\SPH2\\\\src\\\\main\\\\webapp\\\\WEB-INF\\\\applicationContext.xml");
+			WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext(); //FileSystemXmlApplicationContext("C:\\\\Users\\\\awm\\\\Documents\\\\workspace-sts-3.8.3.RELEASE\\\\SPH2\\\\src\\\\main\\\\webapp\\\\WEB-INF\\\\applicationContext.xml");
 			
 			StudentService studentService = context.getBean("studentService",StudentService.class);
 			student = studentService.getStudent(studentid);
 			
-			context.close();
+			//context.close();
 		}
 
 		request.setAttribute("student", student);
